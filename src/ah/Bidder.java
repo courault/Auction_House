@@ -27,8 +27,10 @@ public class Bidder implements Observer{
 		this.wallet = wallet;
 		this.ID = ID;
 		AuctionHouse.getListSellers().get(0).subscribe(this);
+		//regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
+		
 	}
-        
+
     @Override
     public void refresh() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
