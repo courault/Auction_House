@@ -9,6 +9,8 @@ public class AuctionHouse {
 	private static ArrayList<Seller> sellers;
 	private static List<String> sellerName = new ArrayList<String>();
 	private static int count =0;
+	private static int i =0;
+	private static int nomberSeller =0;
 	public static Random rand = new Random();
 
 
@@ -35,9 +37,9 @@ public class AuctionHouse {
 		sellerName.add("Jack");
 		sellerName.add("Jack");
 		sellerName.add("Jack");
-                ArrayList<Item> listItem = new ArrayList<>();
-                listItem.add(new Item("item1",50));
-		for(int i=0; i<5;i++) {
+        ArrayList<Item> listItem = new ArrayList<>();
+        listItem.add(new Item("item1",50));
+		for(i=0; i<nomberSeller;i++) {
 			try{
 				sellers.add(new Seller(sellerName.get(i), listItem));
 			}
