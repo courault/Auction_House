@@ -13,6 +13,6 @@ public interface Observable {
      * @param o : Observer's instance
      * @return Observer's ID for the observable
      */
-    public int subscribe (Observer o);
+    public void subscribe (Observer o);
     
 }
