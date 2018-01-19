@@ -1,35 +1,37 @@
 package ah;
 
+public class Bidder implements Observer {
 
-public class Bidder implements Observer{
+    private int wallet;
+    public int ID;
 
-	private int wallet;
-	public int ID;
+    public int getID() {
+        return ID;
+    }
 
+    public int getWallet() {
+        return wallet;
+    }
 
-	public int getID() {
-		return ID;
-	}
+    public boolean bidMonney(int bid) {
+        if (wallet >= bid) {
+            wallet -= bid;
+            return true;
+        }
+        return false;
+    }
 
-	public int getWallet() {
-		return wallet;
-	}
+    public void bidRefund(int bid) {
+        wallet += bid;
+    }
 
-	public void BidMonney(int bid){
-		wallet -= bid;
-	}
+    public Bidder(int wallet, int ID) {
+        this.wallet = wallet;
+        this.ID = ID;
+        AuctionHouse.getListSellers().get(0).subscribe(this);
+        //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
 
-	public void BidRefund(int bid){
-		wallet += bid;
-	}
-
-	public Bidder(int wallet ,int ID) {
-		this.wallet = wallet;
-		this.ID = ID;
-		AuctionHouse.getListSellers().get(0).subscribe(this);
-		//regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
-		
-	}
+    }
 
     @Override
     public void refresh() {
@@ -37,7 +39,7 @@ public class Bidder implements Observer{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.valueOf(ID);
     }
 }
