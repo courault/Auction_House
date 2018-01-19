@@ -16,7 +16,8 @@ public class Seller implements Observable{
         items = listItem;
         if(items.isEmpty())
             throw new EmptyItemListException();
-        nextItem();
+        biggestValue=items.get(0).getPrice();
+        HighestBidder = null;
     }
     
     private void nextItem(){
@@ -38,7 +39,7 @@ public class Seller implements Observable{
     @Override
     public void subscribe (Observer bidder){
         bidders.add(bidder);
-        System.out.println(this.name + bidder.toString());
+        System.out.println("Room : "+this.name +"\nBidder :"+ bidder.toString()+"\n");
     }
     
     
