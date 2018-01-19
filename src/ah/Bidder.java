@@ -1,4 +1,4 @@
-
+package ah;
 
 public class Bidder implements Observer{
 
@@ -27,6 +27,11 @@ public class Bidder implements Observer{
 		this.ID = ID;
 
 	}
+
+    @Override
+    public void refresh(int newValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
 }
