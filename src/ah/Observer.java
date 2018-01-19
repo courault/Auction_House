@@ -1,5 +1,6 @@
 package ah;
 
 public interface Observer {
-    void refresh();
+
+    void refresh(int i);
 }
