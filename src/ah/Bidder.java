@@ -7,11 +7,11 @@ public class Bidder {
 
 
 	public String getID() {
-		return ID.createID();
+		return ID;
 	}
 
 	public int getWallet() {
-		return wallet.getWallet();
+		return wallet;
 	}
 
 	private Bidder(int wallet ) {
