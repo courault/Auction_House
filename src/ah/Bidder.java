@@ -1,12 +1,13 @@
 package ah;
 
+
 public class Bidder implements Observer{
 
 	private int wallet;
-	public String ID;
+	public int ID;
 
 
-	public String getID() {
+	public int getID() {
 		return ID;
 	}
 
@@ -18,20 +19,18 @@ public class Bidder implements Observer{
 		wallet -= bid;
 	}
 
-	public void bidrefund(int bid){
+	public void BidRefund(int bid){
 		wallet += bid;
 	}
 
-	private Bidder(int wallet ) {
+	public Bidder(int wallet ,int ID) {
 		this.wallet = wallet;
 		this.ID = ID;
-
+		AuctionHouse.getListSellers().get(0).subscribe(this);
 	}
-
-    @Override
+	@Override
     public void refresh(int newValue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }
