@@ -10,22 +10,31 @@ public class Seller implements Observable{
     private int biggestValue;
     private Bidder HighestBidder;
     
-    public Seller(String name, ArrayList<Item> listItem){
+    public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException{
         this.name = name;
-        bidders = new ArrayList<Observer>();
+        bidders = new ArrayList<>();
         items = listItem;
+        if(items.isEmpty())
+            throw new EmptyItemListException();
         nextItem();
     }
     
     private void nextItem(){
+        items.remove(0);
         if(items.isEmpty())
             endAuction();
-        
+        else{     
+            biggestValue=items.get(0).getPrice();
+            HighestBidder = null;
+        }
     }
     
     private void endAuction(){
         
     }
+    
+    //Observervable functions 
+    
     @Override
     public int subscribe (Observer bidder){
         bidders.add(bidder);
@@ -36,8 +45,12 @@ public class Seller implements Observable{
     @Override
     public void notifyObserver(){
         for (Observer bidder : bidders){
-            bidder.refresh(biggestValue);
+            bidder.refresh();
         }
     }
    
+    // Getters
+    public String getCurrentItem(){return items.get(0).getName();}
+    public int getCurrentPrice(){return biggestValue;}
+    public String getCurrentBuyer(){return HighestBidder.getID().toString();}
 }
