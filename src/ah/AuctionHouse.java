@@ -1,7 +1,19 @@
 package ah;
 
+import java.util.ArrayList;
+
 public class AuctionHouse {
+
+	private static ArrayList<Seller> sellers;
+
+
 	static public void main(String[] args){
-		System.out.println("Hello world !");
+		sellers = new ArrayList<Seller>();
+		for(int i=0; i<5;i++) {
+			sellers.add(new Seller("", null));
+		}
 	}
+
+
+
 }

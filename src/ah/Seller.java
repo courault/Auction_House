@@ -35,8 +35,8 @@ public class Seller implements Observable{
     
     @Override
     public void notifyObserver(){
-        for (Bidder bidder : bidders){
-            bidder.refresh();
+        for (Observer bidder : bidders){
+            bidder.refresh(biggestValue);
         }
     }
    
