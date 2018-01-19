@@ -36,9 +36,8 @@ public class Seller implements Observable{
     //Observervable functions 
     
     @Override
-    public int subscribe (Observer bidder){
+    public void subscribe (Observer bidder){
         bidders.add(bidder);
-        return bidders.size();
     }
     
     
