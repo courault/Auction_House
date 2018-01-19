@@ -13,26 +13,7 @@ public class AuctionHouse {
 
 
 	static public void main(String[] args){
-		sellers = new ArrayList<Seller>();
-		sellerName.add("Jack");
-		sellerName.add("Jack");
-		sellerName.add("Jack");
-		sellerName.add("Jack");
-		sellerName.add("Jack");
-		for(int i=0; i<5;i++) {
-                    try{
-			sellers.add(new Seller(sellerName.get(i), null));
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-		}
-		Bidder jean = new Bidder(InitiateWallet(), InitiateID());
-		Bidder kevin = new Bidder(InitiateWallet(), InitiateID());
-		Bidder nicolas = new Bidder(InitiateWallet(), InitiateID());
-		Bidder trump = new Bidder(InitiateWallet(), InitiateID());
-		Bidder bertrand = new Bidder(InitiateWallet(), InitiateID());
-		Bidder carole = new Bidder(InitiateWallet(), InitiateID());
+		InitiateRoom();
 	}
 
 	public static ArrayList<Seller> getListSellers(){
@@ -45,6 +26,29 @@ public class AuctionHouse {
 
 	public static int InitiateID(){
 		return count++;
+	}
+
+	public static InitiateRoom() {
+		sellers = new ArrayList<Seller>();
+		sellerName.add("Jack");
+		sellerName.add("Jack");
+		sellerName.add("Jack");
+		sellerName.add("Jack");
+		sellerName.add("Jack");
+		for(int i=0; i<5;i++) {
+			try{
+				sellers.add(new Seller(sellerName.get(i), null));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		Bidder jean = new Bidder(InitiateWallet(), InitiateID());
+		Bidder kevin = new Bidder(InitiateWallet(), InitiateID());
+		Bidder nicolas = new Bidder(InitiateWallet(), InitiateID());
+		Bidder trump = new Bidder(InitiateWallet(), InitiateID());
+		Bidder bertrand = new Bidder(InitiateWallet(), InitiateID());
+		Bidder carole = new Bidder(InitiateWallet(), InitiateID());
 	}
 
 }
