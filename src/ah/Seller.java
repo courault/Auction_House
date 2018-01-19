@@ -52,5 +52,5 @@ public class Seller implements Observable{
     // Getters
     public String getCurrentItem(){return items.get(0).getName();}
     public int getCurrentPrice(){return biggestValue;}
-    public String getCurrentBuyer(){return HighestBidder.getID().toString();}
+    public int getCurrentBuyer(){return HighestBidder.getID();}
 }
