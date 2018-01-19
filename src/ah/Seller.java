@@ -50,7 +50,6 @@ public class Seller implements Observable {
         System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
     }
 
-
     @Override
     public void notifyObserver() {
         for (Observer bidder : bidders) {
@@ -65,8 +64,9 @@ public class Seller implements Observable {
 
     // Getters
     public String getCurrentItem() throws EmptyItemListException {
-        if(items.isEmpty())
+        if (items.isEmpty()) {
             throw new EmptyItemListException();
+        }
         return items.get(0).getName();
     }
 
@@ -77,5 +77,4 @@ public class Seller implements Observable {
     public int getCurrentBuyer() {
         return HighestBidder.getID();
     }
-	public int getSizeBidders(){return Bidders.size();}
 }

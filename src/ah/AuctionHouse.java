@@ -9,8 +9,8 @@ public class AuctionHouse {
     private static ArrayList<Seller> sellers;
     private static List<String> sellerName = new ArrayList<String>();
     private static int count = 0;
-	private static int i =0;
-	private static int nomberSeller =0;
+    private static int i = 0;
+    private static int nomberSeller = 0;
     public static Random rand = new Random();
 
     static public void main(String[] args) {
