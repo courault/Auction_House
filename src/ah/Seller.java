@@ -38,6 +38,7 @@ public class Seller implements Observable{
     @Override
     public void subscribe (Observer bidder){
         bidders.add(bidder);
+        System.out.println(this.name + bidder.toString());
     }
     
     

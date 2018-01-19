@@ -28,7 +28,7 @@ public class AuctionHouse {
 		return count++;
 	}
 
-	public static InitiateRoom() {
+	public static void InitiateRoom() {
 		sellers = new ArrayList<Seller>();
 		sellerName.add("Jack");
 		sellerName.add("Jack");

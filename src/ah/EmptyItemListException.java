@@ -9,6 +9,7 @@ package ah;
  *
  * @author mad
  */
-public class EmptyItemListException {
+public class EmptyItemListException extends Exception{
+    
     
 }
