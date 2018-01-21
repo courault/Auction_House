@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-	private static final String TITLE = "Liscord";
+	private static final String TITLE = "Auction House";
 	private static final int W = 865;
 	private static final int H = 500;
 	
