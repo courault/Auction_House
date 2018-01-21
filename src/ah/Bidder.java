@@ -1,37 +1,45 @@
 package ah;
 
-public class Bidder implements Observer{
+public class Bidder implements Observer {
 
-	private int wallet;
-	public String ID;
+    private int wallet;
+    public int ID;
 
+    public int getID() {
+        return ID;
+    }
 
-	public String getID() {
-		return ID;
-	}
+    public int getWallet() {
+        return wallet;
+    }
 
-	public int getWallet() {
-		return wallet;
-	}
+    public boolean bidMonney(int bid) {
+        if (wallet >= bid) {
+            wallet -= bid;
+            return true;
+        }
+        return false;
+    }
 
-	public void BidMonney(int bid){
-		wallet -= bid;
-	}
+    public void bidRefund(int bid) {
+        wallet += bid;
+    }
 
-	public void bidrefund(int bid){
-		wallet += bid;
-	}
+    public Bidder(int wallet, int ID) {
+        this.wallet = wallet;
+        this.ID = ID;
+        AuctionHouse.getListSellers().get(0).subscribe(this);
+        //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
 
-	private Bidder(int wallet ) {
-		this.wallet = wallet;
-		this.ID = ID;
-
-	}
+    }
 
     @Override
-    public void refresh(int newValue) {
+    public void refresh() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-
+    @Override
+    public String toString() {
+        return String.valueOf(ID);
+    }
 }

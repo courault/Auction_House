@@ -2,42 +2,79 @@ package ah;
 
 import java.util.ArrayList;
 
+public class Seller implements Observable {
 
-public class Seller implements Observable{
     private ArrayList<Observer> bidders;
     private ArrayList<Item> items;
     private final String name;
     private int biggestValue;
     private Bidder HighestBidder;
-    
-    public Seller(String name, ArrayList<Item> listItem){
+
+    public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
         this.name = name;
-        bidders = new ArrayList<Observer>();
+        bidders = new ArrayList<>();
         items = listItem;
-        nextItem();
+        if (items.isEmpty()) {
+            throw new EmptyItemListException();
+        }
+        biggestValue = items.get(0).getPrice();
+        HighestBidder = null;
     }
-    
-    private void nextItem(){
-        if(items.isEmpty())
-            endAuction();
-        
+
+    private void nextItem() {
+        items.remove(0);
+        if (items.isEmpty()) {
+            biggestValue = -1;
+        } else {
+            biggestValue = items.get(0).getPrice();
+        }
+        HighestBidder = null;
+        notifyObserver();
     }
-    
-    private void endAuction(){
-        
+
+    public boolean bid(Bidder bidder, int price) {
+        if (price > biggestValue + items.get(0).getMinBid()
+                && bidder.bidMonney(price)) {
+            HighestBidder.bidRefund(biggestValue);
+            biggestValue = price;
+            HighestBidder = bidder;
+            return true;
+        }
+        return false;
     }
+
+    //Observervable functions
     @Override
-    public int subscribe (Observer bidder){
+    public void subscribe(Observer bidder) {
         bidders.add(bidder);
-        return bidders.size();
+        System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
     }
-    
-    
+
     @Override
-    public void notifyObserver(){
-        for (Observer bidder : bidders){
-            bidder.refresh(biggestValue);
+    public void notifyObserver() {
+        for (Observer bidder : bidders) {
+            bidder.refresh();
         }
     }
-   
+
+    @Override
+    public void unsubscribe(Observer o) {
+        bidders.remove(o);
+    }
+
+    // Getters
+    public String getCurrentItem() throws EmptyItemListException {
+        if (items.isEmpty()) {
+            throw new EmptyItemListException();
+        }
+        return items.get(0).getName();
+    }
+
+    public int getCurrentPrice() {
+        return biggestValue;
+    }
+
+    public int getCurrentBuyer() {
+        return HighestBidder.getID();
+    }
 }
