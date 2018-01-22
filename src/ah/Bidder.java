@@ -4,6 +4,8 @@ public class Bidder implements Observer {
 
     private int wallet;
     public int ID;
+	private int commonPrice;
+	private int currentPrice;
 
     public int getID() {
         return ID;
@@ -30,17 +32,27 @@ public class Bidder implements Observer {
         this.ID = ID;
         AuctionHouse.getListSellers().get(0).subscribe(this);
         //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
-		if(items.isEmpty()) {
+		try {
+			commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
+			currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
 
-		} else {
-			
+		} catch ( EmptyItemListException e) {
+			System.out.println("List empty: end of sales")
 		}
+
 
     }
 
     @Override
     public void refresh() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		try {
+			commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
+			currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
+
+		} catch ( EmptyItemListException e) {
+			System.out.println("List empty: end of sales")
+		}
     }
 
     @Override
