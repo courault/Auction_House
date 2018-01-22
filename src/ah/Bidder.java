@@ -37,7 +37,7 @@ public class Bidder implements Observer {
 			currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
 
 		} catch ( EmptyItemListException e) {
-			System.out.println("List empty: end of sales")
+			System.out.println("List empty: end of sales");
 		}
 
 
@@ -45,13 +45,12 @@ public class Bidder implements Observer {
 
     @Override
     public void refresh() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 		try {
 			commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
 			currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
 
 		} catch ( EmptyItemListException e) {
-			System.out.println("List empty: end of sales")
+			System.out.println("List empty: end of sales");
 		}
     }
 
