@@ -16,7 +16,7 @@ public class Bidder implements Observer {
         this.ID = ID;
         AuctionHouse.getListSellers().get(0).subscribe(this);
         //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
-        whoBid();
+        whoBid(AuctionHouse.getListSellers().get(0));
     }
 
     public boolean bidMonney(int bid) {
@@ -31,24 +31,24 @@ public class Bidder implements Observer {
         wallet += bid;
     }
 
-    public void whoBid() {
+    public void whoBid(Seller seller) {
         try {
             commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
             currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
 			IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentItem().getCurrentBuyer();
             if (commonPrice > currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 500) {
-                    bid(this, currentPrice + 20);
+                    seller.bid(this, currentPrice + 20);
                 }
             } else if (commonPrice * 1.3 < currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 800) {
-                    bid(this, currentPrice + 10);
+                    seller.bid(this, currentPrice + 10);
                 }
-            } else if(commonPrice * 3 < currentPrice && && ID != IDBuyer) {
+            } else if(commonPrice * 3 < currentPrice && ID != IDBuyer) {
 				if (rand.nextInt(1000) > 950) {
-                	bid(this, currentPrice + 5);
+                	seller.bid(this, currentPrice + 5);
 				}
-            }else {}
+            }
         } catch (EmptyItemListException e) {
             System.out.println("List empty: end of sales");
         }
@@ -57,8 +57,8 @@ public class Bidder implements Observer {
 
 
     @Override
-    public void refresh() {
-        whoBid();
+    public void refresh(Seller seller) {
+        whoBid(seller);
     }
 
     @Override
