@@ -63,11 +63,11 @@ public class Seller implements Observable {
     }
 
     // Getters
-    public String getCurrentItem() throws EmptyItemListException {
+    public Item getCurrentItem() throws EmptyItemListException {
         if (items.isEmpty()) {
             throw new EmptyItemListException();
         }
-        return items.get(0).getName();
+        return items.get(0);
     }
 
     public int getCurrentPrice() {
