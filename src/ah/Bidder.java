@@ -6,7 +6,7 @@ public class Bidder implements Observer {
 
     private int wallet;
     private int ID;
-	private int IDBuyer;
+    private int IDBuyer;
     private int commonPrice;
     private int currentPrice;
     public static Random rand = new Random();
@@ -35,7 +35,7 @@ public class Bidder implements Observer {
         try {
             commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
             currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
-			IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentItem().getCurrentBuyer();
+            IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentBuyer();
             if (commonPrice > currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 500) {
                     seller.bid(this, currentPrice + 20);
@@ -44,17 +44,15 @@ public class Bidder implements Observer {
                 if (rand.nextInt(1000) > 800) {
                     seller.bid(this, currentPrice + 10);
                 }
-            } else if(commonPrice * 3 < currentPrice && ID != IDBuyer) {
-				if (rand.nextInt(1000) > 950) {
-                	seller.bid(this, currentPrice + 5);
-				}
+            } else if (commonPrice * 3 < currentPrice && ID != IDBuyer) {
+                if (rand.nextInt(1000) > 950) {
+                    seller.bid(this, currentPrice + 5);
+                }
             }
         } catch (EmptyItemListException e) {
             System.out.println("List empty: end of sales");
         }
     }
-
-
 
     @Override
     public void refresh(Seller seller) {
@@ -67,7 +65,6 @@ public class Bidder implements Observer {
     }
 
     //Getters
-
     public int getID() {
         return ID;
     }
