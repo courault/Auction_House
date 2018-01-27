@@ -29,23 +29,29 @@ public class Bidder implements Observer {
 
     private void whoBid(Seller seller) {
         try {
-            int commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
-            int currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
-            int minBid = AuctionHouse.getListSellers().get(0).getCurrentItem().getMinBid();
-            int IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentBuyer();
-            if (commonPrice > currentPrice && ID != IDBuyer) {
-                if (rand.nextInt(1000) > 500) {
-                    seller.bid(this, currentPrice + minBid*4);
-                }
-            } else if (commonPrice * 1.3 < currentPrice && ID != IDBuyer) {
-                if (rand.nextInt(1000) > 800) {
-                    seller.bid(this, currentPrice + minBid*2);
-                }
-            } else if (commonPrice * 3 < currentPrice && ID != IDBuyer) {
-                if (rand.nextInt(1000) > 950) {
-                    seller.bid(this, currentPrice + minBid);
-                }
-            }
+            int commonPrice = seller.getCurrentItem().getCommonPrice();
+            int currentPrice = seller.getCurrentPrice();
+            int minBid = seller.getCurrentItem().getMinBid();
+            int IDBuyer = seller.getCurrentBuyer();
+			int aleatoire = rand.nextInt(1000);
+			System.out.println("commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+			if( ID != IDBuyer) {
+				if (commonPrice > currentPrice) {
+	                if ( aleatoire > 500) {
+	                    seller.bid(this, currentPrice + minBid*4);
+	                }
+	            } else if (commonPrice * 1.3 > currentPrice) {
+	                if ( aleatoire > 800) {
+						System.out.println("action 2, commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+	                    seller.bid(this, currentPrice + minBid*2);
+	                }
+	            } else if (commonPrice * 3 > currentPrice) {
+	                if ( aleatoire > 950) {
+						System.out.println("action 3, commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+	                    seller.bid(this, currentPrice + minBid);
+	                }
+	            }
+			}
         } catch (EmptyItemListException e) {
             System.out.println("List empty: end of sales");
         }

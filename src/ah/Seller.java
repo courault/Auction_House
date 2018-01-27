@@ -39,6 +39,7 @@ public class Seller implements Observable {
                 HighestBidder.bidRefund(biggestValue);
             biggestValue = price;
             HighestBidder = bidder;
+			notifyObserver();
             return true;
         }
         return false;
