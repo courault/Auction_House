@@ -6,13 +6,12 @@ public class Bidder implements Observer {
 
     private int wallet;
     private final int ID;
-    public static Random rand = new Random();
+    private static Random rand = new Random();
 
     public Bidder(int wallet, int ID) {
         this.wallet = wallet;
         this.ID = ID;
         AuctionHouse.getListSellers().get(0).subscribe(this);                   //TODO : Changes that to connect correctly to room
-        //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
         whoBid(AuctionHouse.getListSellers().get(0));
     }
 
