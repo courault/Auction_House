@@ -9,10 +9,12 @@ public class Seller implements Observable {
     private final String name;
     private int biggestValue;
     private Bidder HighestBidder;
+    private ArrayList<Offer> offers;
 
     public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
         this.name = name;
         bidders = new ArrayList<>();
+        offers = new ArrayList<>();
         items = listItem;
         if (items.isEmpty()) {
             throw new EmptyItemListException();
@@ -32,17 +34,30 @@ public class Seller implements Observable {
         notifyObserver();
     }
 
-    public boolean bid(Bidder bidder, int price) {
-        if (price >= biggestValue + items.get(0).getMinBid()
-                && bidder.bidMonney(price)) {
-            if(HighestBidder!=null)
-                HighestBidder.bidRefund(biggestValue);
-            biggestValue = price;
-            HighestBidder = bidder;
-			notifyObserver();
-            return true;
+    public void bid(Offer offer) {
+        offers.add(offer);
+    }
+
+    private void getBestOffer() {
+        if (!offers.isEmpty()) {
+            Bidder bidder = null;
+            int price = 0;
+            for (Offer offer : offers) {
+                if (offer.getOffer() > price) {
+                    bidder = offer.getBidder();
+                    price = offer.getOffer();
+                }
+            }
+            if (price >= biggestValue + items.get(0).getMinBid()
+                    && bidder.bidMonney(price)) {
+                if (HighestBidder != null) {
+                    HighestBidder.bidRefund(biggestValue);
+                }
+                biggestValue = price;
+                HighestBidder = bidder;
+                notifyObserver();
+            }
         }
-        return false;
     }
 
     //Observervable functions
@@ -57,6 +72,7 @@ public class Seller implements Observable {
         for (Observer bidder : bidders) {
             bidder.refresh(this);
         }
+        getBestOffer();
     }
 
     @Override
@@ -77,8 +93,9 @@ public class Seller implements Observable {
     }
 
     public int getCurrentBuyer() {
-        if(HighestBidder!=null)
+        if (HighestBidder != null) {
             return HighestBidder.getID();
+        }
         return -1;
     }
 }
