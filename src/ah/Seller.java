@@ -33,9 +33,10 @@ public class Seller implements Observable {
     }
 
     public boolean bid(Bidder bidder, int price) {
-        if (price > biggestValue + items.get(0).getMinBid()
+        if (price >= biggestValue + items.get(0).getMinBid()
                 && bidder.bidMonney(price)) {
-            HighestBidder.bidRefund(biggestValue);
+            if(HighestBidder!=null)
+                HighestBidder.bidRefund(biggestValue);
             biggestValue = price;
             HighestBidder = bidder;
             return true;
