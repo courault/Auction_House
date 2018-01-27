@@ -55,6 +55,7 @@ public class Seller implements Observable {
                 }
                 biggestValue = price;
                 HighestBidder = bidder;
+                offers.clear();
                 notifyObserver();
             }
         }
@@ -65,13 +66,14 @@ public class Seller implements Observable {
     public void subscribe(Observer bidder) {
         bidders.add(bidder);
         System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
+        getBestOffer();
     }
 
     @Override
     public void notifyObserver() {
-        for (Observer bidder : bidders) {
+        bidders.stream().forEach((bidder) -> {
             bidder.refresh(this);
-        }
+        });
         getBestOffer();
     }
 
