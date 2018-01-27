@@ -6,9 +6,6 @@ public class Bidder implements Observer {
 
     private int wallet;
     private final int ID;
-    private int IDBuyer;
-    private int commonPrice;
-    private int currentPrice;
     public static Random rand = new Random();
 
     public Bidder(int wallet, int ID) {
@@ -33,20 +30,21 @@ public class Bidder implements Observer {
 
     private void whoBid(Seller seller) {
         try {
-            commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
-            currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
-            IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentBuyer();
+            int commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
+            int currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
+            int minBid = AuctionHouse.getListSellers().get(0).getCurrentItem().getMinBid();
+            int IDBuyer = AuctionHouse.getListSellers().get(0).getCurrentBuyer();
             if (commonPrice > currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 500) {
-                    seller.bid(this, currentPrice + 20);
+                    seller.bid(this, currentPrice + minBid*4);
                 }
             } else if (commonPrice * 1.3 < currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 800) {
-                    seller.bid(this, currentPrice + 10);
+                    seller.bid(this, currentPrice + minBid*2);
                 }
             } else if (commonPrice * 3 < currentPrice && ID != IDBuyer) {
                 if (rand.nextInt(1000) > 950) {
-                    seller.bid(this, currentPrice + 5);
+                    seller.bid(this, currentPrice + minBid);
                 }
             }
         } catch (EmptyItemListException e) {
