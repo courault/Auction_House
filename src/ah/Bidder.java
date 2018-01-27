@@ -5,7 +5,7 @@ import java.util.Random;
 public class Bidder implements Observer {
 
     private int wallet;
-    private int ID;
+    private final int ID;
     private int IDBuyer;
     private int commonPrice;
     private int currentPrice;
@@ -14,7 +14,7 @@ public class Bidder implements Observer {
     public Bidder(int wallet, int ID) {
         this.wallet = wallet;
         this.ID = ID;
-        AuctionHouse.getListSellers().get(0).subscribe(this);
+        AuctionHouse.getListSellers().get(0).subscribe(this);                   //TODO : Changes that to connect correctly to room
         //regarder si il y a un item si oui est ce que je bid ? puis appeler bid()
         whoBid(AuctionHouse.getListSellers().get(0));
     }
@@ -31,7 +31,7 @@ public class Bidder implements Observer {
         wallet += bid;
     }
 
-    public void whoBid(Seller seller) {
+    private void whoBid(Seller seller) {
         try {
             commonPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();
             currentPrice = AuctionHouse.getListSellers().get(0).getCurrentItem().getCommonPrice();

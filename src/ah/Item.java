@@ -5,7 +5,7 @@ class Item {
     private final String name;
     private final int price;
     private final int minBid;
-    public int commonPrice;
+    private final int commonPrice;
 
     public Item(String name, int price) {
         this.name = name;

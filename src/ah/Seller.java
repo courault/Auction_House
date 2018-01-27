@@ -53,7 +53,7 @@ public class Seller implements Observable {
     @Override
     public void notifyObserver() {
         for (Observer bidder : bidders) {
-            bidder.refresh();
+            bidder.refresh(this);
         }
     }
 

@@ -2,5 +2,5 @@ package ah;
 
 public interface Observer {
 
-    void refresh();
+    void refresh(Seller seller);
 }
