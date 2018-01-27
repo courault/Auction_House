@@ -36,7 +36,7 @@ public class AuctionHouse {
         sellerName.add("Jack");
         sellerName.add("Jack");
         ArrayList<Item> listItem = new ArrayList<>();
-        listItem.add(new Item("item1", 50));
+        listItem.add(new Item("item1", 100));
         for (int i = 0; i < 5; i++) {
             try {
                 sellers.add(new Seller(sellerName.get(i), listItem));
