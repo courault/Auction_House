@@ -75,6 +75,8 @@ public class Seller implements Observable {
     }
 
     public int getCurrentBuyer() {
-        return HighestBidder.getID();
+        if(HighestBidder!=null)
+            return HighestBidder.getID();
+        return -1;
     }
 }
