@@ -1,5 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ah;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,27 +17,30 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ *
+ * @author mad
+ */
 public class SellerTest {
     
     Bidder bidder;
     Seller seller;
     
     public SellerTest() {
-        try {
+        try{
             this.bidder= new Bidder(10000,1);
             ArrayList<Item> items = new ArrayList<>();
             items.add(new Item("Stuff 1", 100));
             this.seller= new Seller("Jack",items);
         } catch (EmptyItemListException ex) {
             fail("WTF ?");
-            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-            
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);            
         }
     }
     
     @BeforeClass
     public static void setUpClass() {
-        AuctionHouse.main(null);
+            AuctionHouse.main(null);
     }
     
     @AfterClass
@@ -50,25 +60,22 @@ public class SellerTest {
      */
     @Test
     public void testBid() {
-        System.out.println("bid");
-        int price = 100;
-        //Seller instance = null;
-        boolean expResult = false;
-        boolean result;
         try {
-            result = seller.bid(bidder, seller.getCurrentItem().getPrice());
-            assertEquals(expResult, result);
-            result = seller.bid(bidder, seller.getCurrentPrice()
-                    +seller.getCurrentItem().getMinBid());
-            assertEquals(true, result);
+            System.out.println("bid");
+            Seller instance = seller;
+            instance.bid(new Offer(bidder,seller.getCurrentPrice()+seller.getCurrentItem().getMinBid()));
+            
+            Method f = seller.getClass().getDeclaredMethod("getBestOffer", null);
+            f.setAccessible(true);
+            f.invoke(seller, null);
+            if(seller.getCurrentBuyer()!=bidder.getID())          
+                fail("The test case is a prototype.");
         } catch (EmptyItemListException ex) {
+            fail("DAFUQ is going on ?");
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail();
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-        
     }
 
     /**
