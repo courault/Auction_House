@@ -10,6 +10,7 @@ public class Seller implements Observable {
     private int biggestValue;
     private Bidder HighestBidder;
     private ArrayList<Offer> offers;
+    private short calls = 0;
 
     public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
         this.name = name;
@@ -23,6 +24,10 @@ public class Seller implements Observable {
         HighestBidder = null;
     }
 
+    public void start(){
+        notifyObserver();
+    }
+    
     private void nextItem() {
         items.remove(0);
         if (items.isEmpty()) {
@@ -58,7 +63,14 @@ public class Seller implements Observable {
                 offers.clear();
                 notifyObserver();
             }
+        } 
+        else if (calls < 3) {
+            ++calls;
+            notifyObserver();
         }
+//        else
+//            nextItem();
+
     }
 
     //Observervable functions
@@ -66,7 +78,7 @@ public class Seller implements Observable {
     public void subscribe(Observer bidder) {
         bidders.add(bidder);
         System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
-        getBestOffer();
+        calls=0;
     }
 
     @Override

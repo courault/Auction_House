@@ -14,6 +14,7 @@ public class AuctionHouse {
 
     static public void main(String[] args) {
         InitiateRoom();
+        sellers.get(0).start();
     }
 
     public static ArrayList<Seller> getListSellers() {

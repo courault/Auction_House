@@ -12,7 +12,7 @@ public class Bidder implements Observer {
         this.wallet = wallet;
         this.ID = ID;
         AuctionHouse.getListSellers().get(0).subscribe(this);                   //TODO : Changes that to connect correctly to room
-        whoBid(AuctionHouse.getListSellers().get(0));
+//        whoBid(AuctionHouse.getListSellers().get(0));
     }
 
     public boolean bidMonney(int bid) {
