@@ -11,6 +11,7 @@ public class Seller implements Observable {
     private Bidder HighestBidder;
     private ArrayList<Offer> offers;
     private short calls = 0;
+    private boolean newbid = true;
 
     public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
         this.name = name;
@@ -24,22 +25,28 @@ public class Seller implements Observable {
         HighestBidder = null;
     }
 
-    public void start(){
-        notifyObserver();
-    }
-    
-    private void nextItem() {
-        items.remove(0);
-        if (items.isEmpty()) {
-            biggestValue = -1;
-        } else {
-            biggestValue = items.get(0).getPrice();
-        }
-        HighestBidder = null;
+    public void start() {
         notifyObserver();
     }
 
-    public void bid(Offer offer) {
+    private void nextItem() {
+        items.remove(0);
+        HighestBidder = null;
+        offers.clear();
+        if (items.isEmpty()) {
+            biggestValue = -1;
+        } else {
+            biggestValue = items.get(0).getPrice();          
+            newbid=true;
+            //notifyObserver();
+        }
+
+    }
+
+    public void bid(Offer offer) throws EmptyItemListException {
+        if (items.isEmpty()) {
+            throw new EmptyItemListException();
+        }
         offers.add(offer);
     }
 
@@ -60,16 +67,18 @@ public class Seller implements Observable {
                 }
                 biggestValue = price;
                 HighestBidder = bidder;
-                offers.clear();
-                notifyObserver();
+                offers.clear();               
+//                notifyObserver();
             }
-        } 
-        else if (calls < 3) {
-            ++calls;
-            notifyObserver();
+            newbid = true;
+            calls = 0;
         }
-//        else
+//        else if (calls < 3) {
+//            ++calls;
+//            notifyObserver();
+//        } else {
 //            nextItem();
+//        }
 
     }
 
@@ -78,15 +87,28 @@ public class Seller implements Observable {
     public void subscribe(Observer bidder) {
         bidders.add(bidder);
         System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
-        calls=0;
+        calls = 0;
     }
 
     @Override
     public void notifyObserver() {
-        bidders.stream().forEach((bidder) -> {
-            bidder.refresh(this);
-        });
-        getBestOffer();
+        while (newbid) {
+            newbid = false;
+            bidders.stream().forEach((bidder) -> {
+                bidder.refresh(this);
+            });
+            getBestOffer();
+            if (!newbid) {
+                if (calls < 3) {
+                    ++calls;
+                    newbid=true;
+                } else {
+                    nextItem();
+                    calls=0;
+                }
+            }
+        }
+
     }
 
     @Override

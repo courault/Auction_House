@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ah;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,40 +13,40 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author mad
- */
 public class SellerTest {
-    
-    Bidder bidder;
-    Seller seller;
-    
+
+    private Bidder bidder;
+    private Seller seller;
+    private ArrayList<Item> items;
+
     public SellerTest() {
-        try{
-            this.bidder= new Bidder(10000,1);
-            ArrayList<Item> items = new ArrayList<>();
-            items.add(new Item("Stuff 1", 100));
-            this.seller= new Seller("Jack",items);
+        try {
+            setSellers();
         } catch (EmptyItemListException ex) {
             fail("WTF ?");
-            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-            AuctionHouse.main(null);
+        AuctionHouse.main(null);
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        try {
+            setSellers();
+        } catch (EmptyItemListException ex) {
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -63,17 +59,35 @@ public class SellerTest {
         try {
             System.out.println("bid");
             Seller instance = seller;
-            instance.bid(new Offer(bidder,seller.getCurrentPrice()+seller.getCurrentItem().getMinBid()));
-            
-            Method f = seller.getClass().getDeclaredMethod("getBestOffer", null);
+            instance.bid(new Offer(bidder, seller.getCurrentPrice() + seller.getCurrentItem().getMinBid()));
+            Method m = seller.getClass().getDeclaredMethod("getBestOffer", null);
+            m.setAccessible(true);
+            m.invoke(seller, null);
+            if (seller.getCurrentBuyer() != bidder.getID()) {                   //Correct bid, should be accepted
+                fail("Bidder is not the current buyer");
+            }
+            Field f = seller.getClass().getDeclaredField("offers");
             f.setAccessible(true);
-            f.invoke(seller, null);
-            if(seller.getCurrentBuyer()!=bidder.getID())          
-                fail("The test case is a prototype.");
+            ArrayList<Bidder> offers = (ArrayList) f.get(seller);
+            if (!offers.isEmpty()) //check if offers array not cleaned as it should be
+            {
+                fail("Offer array should be empty");
+            }
+            instance.bid(new Offer(bidder, seller.getCurrentPrice()));
+            setUp();
+            m = seller.getClass().getDeclaredMethod("getBestOffer", null);
+            m.setAccessible(true);
+            m.invoke(seller, null);
+            if (seller.getCurrentBuyer() == bidder.getID()) {                   //Bid to low, should be rejected
+                fail("Bidder should not be the current buyer");
+            }
         } catch (EmptyItemListException ex) {
             fail("DAFUQ is going on ?");
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException |
+                IllegalArgumentException | InvocationTargetException | NoSuchFieldException ex) {
+            fail("Exception found");
+            System.out.println(ex.getStackTrace());
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -83,26 +97,43 @@ public class SellerTest {
      */
     @Test
     public void testSubscribe() {
-        System.out.println("subscribe");
-        Observer bidder = null;
-        Seller instance = null;
-        instance.subscribe(bidder);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            seller.unsubscribe(bidder);
+            System.out.println("subscribe");
+            Observer bidder = this.bidder;
+            Seller instance = seller;
+            instance.subscribe(bidder);
+            Field f = seller.getClass().getDeclaredField("bidders");
+            f.setAccessible(true);
+            ArrayList<Bidder> g = (ArrayList) f.get(seller);
+            if (!g.contains(bidder)) {
+                fail("Bidder did not subscribe.");
+            }
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+            fail("Exception found");
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * Test of notifyObserver method, of class Seller.
-     */
-    @Test
-    public void testNotifyObserver() {
-        System.out.println("notifyObserver");
-        Seller instance = null;
-        instance.notifyObserver();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+//    /**
+//     * Test of notifyObserver method, of class Seller.
+//     */
+//    @Test
+//    public void testNotifyObserver() {
+//        System.out.println("notifyObserver");
+//        try {
+//            Field f = seller.getClass().getDeclaredField("items");
+//            f.setAccessible(true);
+//            ArrayList<Item> g = (ArrayList) f.get(seller);
+//            g.clear();
+//            Seller instance = seller;
+//            instance.notifyObserver();
+//            // TODO review the generated test code and remove the default call to fail.
+//            fail("The test case is a prototype.");
+//        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+//            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     /**
      * Test of unsubscribe method, of class Seller.
      */
@@ -157,5 +188,13 @@ public class SellerTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
+    //Non direct test functions
+    private void setSellers() throws EmptyItemListException {
+        items = new ArrayList<>();
+        items.add(new Item("Stuff 1", 100));
+        this.seller = new Seller("Jack", items);
+        
+    }
+
 }
