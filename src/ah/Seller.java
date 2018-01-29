@@ -1,6 +1,8 @@
 package ah;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Seller implements Observable {
 
@@ -9,6 +11,7 @@ public class Seller implements Observable {
     private Bidder HighestBidder;
     private ArrayList<Offer> offers;
     private short calls = 0;
+    private int item = 0;
     private boolean newbid = true;
 
     public Seller(ArrayList<Item> listItem) throws EmptyItemListException {
@@ -18,6 +21,7 @@ public class Seller implements Observable {
         if (items.isEmpty()) {
             throw new EmptyItemListException();
         }
+        item = 0;
         HighestBidder = null;
     }
 
@@ -26,12 +30,17 @@ public class Seller implements Observable {
     }
 
     private void nextItem() {
-        items.remove(0);
-        HighestBidder = null;
-        offers.clear();
-        if (!items.isEmpty()) {
+        items.get(item).isSold(true);
+        Bidder precBid = HighestBidder;
+        int price = items.get(item).getPrice();
+        if (item < items.size() - 1) {
+            ++item;
+            this.HighestBidder = null;
             newbid = true;
         }
+        System.out.println("The item is sold to " + precBid.getID()
+                + " for " + items.get(item).getPrice() + "$");
+        offers.clear();
     }
 
     public void bid(Offer offer) {
@@ -43,13 +52,21 @@ public class Seller implements Observable {
             offers.sort((f1, f2) -> Integer.compare(f2.getOffer(), f1.getOffer()));
             int price = offers.get(0).getOffer();
             Bidder bidder = offers.get(0).getBidder();
-            if (price >= items.get(0).getPrice() + items.get(0).getMinBid()
+            if (price >= items.get(item).getPrice() + items.get(item).getMinBid()
                     && bidder.bidMonney(price)) {
                 if (HighestBidder != null) {
-                    HighestBidder.bidRefund(items.get(0).getPrice());
+                    HighestBidder.bidRefund(items.get(item).getPrice());
                 }
-                items.get(0).setPrice(price);
+                items.get(item).setPrice(price);
                 HighestBidder = bidder;
+                System.out.println("The best offer comes from : "
+                        + (bidder.getID())
+                        + "\nHis offer was : " + (price));
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 newbid = true;
                 calls = 0;
             }
@@ -85,6 +102,7 @@ public class Seller implements Observable {
                 }
             }
             System.out.println();
+            System.out.flush();
         }
 
     }
@@ -96,17 +114,17 @@ public class Seller implements Observable {
 
     // Getters
     public Item getCurrentItem() throws EmptyItemListException {
-        if (items.isEmpty()) {
+        if (items.isEmpty() || item == items.size()) {
             throw new EmptyItemListException();
         }
-        return items.get(0);
+        return items.get(item);
     }
 
     public int getCurrentPrice() throws EmptyItemListException {
-        if (items.isEmpty()) {
+        if (items.isEmpty() || item == items.size()) {
             throw new EmptyItemListException();
         } else {
-            return items.get(0).getPrice();
+            return items.get(item).getPrice();
         }
     }
 
