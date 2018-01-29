@@ -11,6 +11,7 @@ public class Seller implements Observable {
     private Bidder HighestBidder;
     private ArrayList<Offer> offers;
     private short calls = 0;
+    private boolean newbid = true;
 
     public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
         this.name = name;
@@ -24,19 +25,21 @@ public class Seller implements Observable {
         HighestBidder = null;
     }
 
-    public void start(){
+    public void start() {
         notifyObserver();
     }
 
     private void nextItem() {
         items.remove(0);
+        HighestBidder = null;
+        offers.clear();
         if (items.isEmpty()) {
             biggestValue = -1;
         } else {
             biggestValue = items.get(0).getPrice();
+            newbid=true;
+            //notifyObserver();
         }
-        HighestBidder = null;
-        notifyObserver();
     }
 
     public void bid(Offer offer) {
@@ -52,7 +55,7 @@ public class Seller implements Observable {
                     bidder = offer.getBidder();
                     price = offer.getOffer();
                 }
-            } 
+            }
             if (price >= biggestValue + items.get(0).getMinBid()
                     && bidder.bidMonney(price)) {
                 if (HighestBidder != null) {
@@ -61,16 +64,10 @@ public class Seller implements Observable {
                 biggestValue = price;
                 HighestBidder = bidder;
                 offers.clear();
-                notifyObserver();
             }
+            newbid = true;
+            calls = 0;
         }
-        else if (calls < 3) {
-            ++calls;
-            notifyObserver();
-        }
-//        else
-//            nextItem();
-
     }
 
     //Observervable functions
@@ -78,15 +75,28 @@ public class Seller implements Observable {
     public void subscribe(Observer bidder) {
         bidders.add(bidder);
         System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
-        calls=0;
+        calls = 0;
     }
 
     @Override
     public void notifyObserver() {
-        bidders.stream().forEach((bidder) -> {
-            bidder.refresh(this);
-        });
-        getBestOffer();
+        while (newbid) {
+            newbid = false;
+            bidders.stream().forEach((bidder) -> {
+                bidder.refresh(this);
+            });
+            getBestOffer();
+            if (!newbid) {
+                if (calls < 3) {
+                    ++calls;
+                    newbid=true;
+                } else {
+                    nextItem();
+                    calls=0;
+                }
+            }
+        }
+
     }
 
     @Override

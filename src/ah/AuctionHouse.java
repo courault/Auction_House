@@ -22,7 +22,7 @@ public class AuctionHouse {
     }
 
     public static int InitiateWallet() {
-        return rand.nextInt(1000);
+        return rand.nextInt(1000000000);
     }
 
     public static int InitiateID() {
@@ -37,7 +37,8 @@ public class AuctionHouse {
         sellerName.add("Jack");
         sellerName.add("Jack");
         ArrayList<Item> listItem = new ArrayList<>();
-        listItem.add(new Item("item1", 100));
+        for(int i =0; i<1000;++i)
+            listItem.add(new Item("item1", 100));
         for (int i = 0; i < 5; i++) {
             try {
                 sellers.add(new Seller(sellerName.get(i), listItem));

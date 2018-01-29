@@ -11,7 +11,8 @@ class Item {
         this.name = name;
         this.price = price;
         commonPrice = price * 2;
-        minBid = (int) (Math.random() * (price / 10 - price / 20));
+        minBid = (int) (price / 10) + (int)(Math.random() * (((price / 20) - (price / 10)) + 1));
+        
     }
 
     //Getters
