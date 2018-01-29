@@ -29,17 +29,16 @@ public class Seller implements Observable {
         notifyObserver();
     }
 
-    private void nextItem() {
-        items.get(item).isSold(true);
-        Bidder precBid = HighestBidder;
-        int price = items.get(item).getPrice();
+    private void nextItem() {    
         if (item < items.size() - 1) {
-            ++item;
+            items.get(item).isSold(true);
             this.HighestBidder = null;
-            newbid = true;
+            calls=0;
         }
-        System.out.println("The item is sold to " + precBid.getID()
-                + " for " + items.get(item).getPrice() + "$");
+        else
+            calls=4;
+        newbid = true;
+        ++item;
         offers.clear();
     }
 
@@ -62,11 +61,11 @@ public class Seller implements Observable {
                 System.out.println("The best offer comes from : "
                         + (bidder.getID())
                         + "\nHis offer was : " + (price));
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Seller.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 newbid = true;
                 calls = 0;
             }
@@ -96,10 +95,14 @@ public class Seller implements Observable {
                 if (calls < 3) {
                     ++calls;
                     newbid = true;
-                } else {
+                } 
+                else if(calls == 3) {
                     nextItem();
-                    calls = 0;
                 }
+                else {
+                    newbid=false;
+                }
+                    
             }
             System.out.println();
             System.out.flush();
@@ -114,14 +117,14 @@ public class Seller implements Observable {
 
     // Getters
     public Item getCurrentItem() throws EmptyItemListException {
-        if (items.isEmpty() || item == items.size()) {
+        if (items.isEmpty() || item >= items.size()) {
             throw new EmptyItemListException();
         }
         return items.get(item);
     }
 
     public int getCurrentPrice() throws EmptyItemListException {
-        if (items.isEmpty() || item == items.size()) {
+        if (items.isEmpty() || item >= items.size()) {
             throw new EmptyItemListException();
         } else {
             return items.get(item).getPrice();
