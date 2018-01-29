@@ -170,8 +170,14 @@ public class SellerTest {
         System.out.println("getCurrentPrice");
         Seller instance = seller;
         int expResult = items.get(0).getPrice();
-        int result = instance.getCurrentPrice();
-        assertEquals(expResult, result);
+        int result;
+        try {
+            result = instance.getCurrentPrice();
+            assertEquals(expResult, result);
+        } catch (EmptyItemListException ex) {
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
