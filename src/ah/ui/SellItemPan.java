@@ -5,6 +5,7 @@
  */
 package ah.ui;
 
+import ah.AuctionHouse;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.NumberFormat;
@@ -166,7 +167,9 @@ public class SellItemPan extends javax.swing.JPanel {
     }//GEN-LAST:event_nameFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        itemNameList.add(nameField.getText());
+        if("".equals(nameField.getText()) || priceField.getValue() == null)
+			return;
+		itemNameList.add(nameField.getText());
 		itemList.add(new Item(nameField.getText(), (int)priceField.getValue()));
 		nameField.setText("");
 		priceField.setValue(1);
@@ -180,7 +183,8 @@ public class SellItemPan extends javax.swing.JPanel {
     }//GEN-LAST:event_priceFieldActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        
+        AuctionHouse.getInstance().initiateRoom(itemList);
+		AuctionHouse.getInstance().getSeller().start();
 		Window.getInstance().showPanel(Window.AUCT_PANEL);
     }//GEN-LAST:event_startButtonActionPerformed
 

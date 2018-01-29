@@ -37,7 +37,7 @@ public class SellerTest {
         items.add(new Item("Stuff 1", 100));
         try {
             bidder = new Bidder(1000, 0);
-            this.seller = new Seller("Jack", items);
+            this.seller = new Seller(items);
             seller.subscribe(bidder);
         } catch (EmptyItemListException ex) {
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
