@@ -120,8 +120,12 @@ public class SellerTest {
         System.out.println("notifyObserver");
         Seller instance = seller;
         instance.notifyObserver();
-        assertTrue("All items are not sold, should not have ended",
-                items.isEmpty());
+        try {
+            seller.getCurrentPrice();
+            fail("All items are not sold, should not have append");             //Should have catch an error at this point
+        } catch (EmptyItemListException ex) {
+            
+        }
     }
 
     /**

@@ -34,12 +34,12 @@ public class Seller implements Observable {
         Bidder precBid = HighestBidder;
         int price = items.get(item).getPrice();
         if (item < items.size() - 1) {
-            ++item;
             this.HighestBidder = null;
             newbid = true;
-        }
+        }       
         System.out.println("The item is sold to " + precBid.getID()
                 + " for " + items.get(item).getPrice() + "$");
+        ++item;
         offers.clear();
     }
 
