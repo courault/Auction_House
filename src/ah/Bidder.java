@@ -11,7 +11,7 @@ public class Bidder implements Observer {
     public Bidder(int wallet, int ID) {
         this.wallet = wallet;
         this.ID = ID;
-//        AuctionHouse.getListSellers().get(0).subscribe(this);                   //TODO : Changes that to connect correctly to room
+//        AuctionHouse.getListSellers().get(0).subscribe(this);                 //TODO : Changes that to connect correctly to room
 //        whoBid(AuctionHouse.getListSellers().get(0));
     }
 
@@ -38,18 +38,18 @@ public class Bidder implements Observer {
             if (ID != IDBuyer) {
                 if (commonPrice > currentPrice) {
                     if (aleatoire > 500) {
-                        System.out.println("action 1, currentPrice : " + currentPrice + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid * 4));
+                        System.out.println("action 1, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 4 + aleatoire/100) + " , minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid * 4 + aleatoire/100));
                     }
                 } else if (commonPrice * 1.3 > currentPrice) {
                     if (aleatoire > 800) {
-                        System.out.println("action 2, currentPrice : " + currentPrice + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid * 2));
+                        System.out.println("action 2, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 4 + aleatoire/100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid * 2 + aleatoire/100));
                     }
                 } else if (commonPrice * 3 > currentPrice) {
                     if (aleatoire > 950) {
-                        System.out.println("action 3, currentPrice : " + currentPrice + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid));
+                        System.out.println("action 3, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 4 + aleatoire/100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid + aleatoire/100));
                     }
                 }
             }

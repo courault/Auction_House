@@ -47,27 +47,23 @@ public class Seller implements Observable {
     }
 
     private void getBestOffer() {
-        if (!offers.isEmpty()) {
-            Bidder bidder = null;
-            int price = 0;
-            for (Offer offer : offers) {
-                if (offer.getOffer() > price) {
-                    bidder = offer.getBidder();
-                    price = offer.getOffer();
-                }
-            }
+        if (!offers.isEmpty()) {           
+            offers.sort((f1, f2) -> Integer.compare(f2.getOffer(), f1.getOffer()));
+            int price = offers.get(0).getOffer();
+            Bidder bidder = offers.get(0).getBidder();
             if (price >= biggestValue + items.get(0).getMinBid()
                     && bidder.bidMonney(price)) {
                 if (HighestBidder != null) {
                     HighestBidder.bidRefund(biggestValue);
                 }
                 biggestValue = price;
-                HighestBidder = bidder;
-                offers.clear();
+                HighestBidder = bidder;             
+                newbid = true;
+                calls = 0;
             }
-            newbid = true;
-            calls = 0;
+            
         }
+        offers.clear();
     }
 
     //Observervable functions
@@ -95,6 +91,7 @@ public class Seller implements Observable {
                     calls=0;
                 }
             }
+            System.out.println();
         }
 
     }
