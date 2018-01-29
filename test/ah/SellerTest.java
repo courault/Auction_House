@@ -14,41 +14,45 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class SellerTest {
-
+    
     private Bidder bidder;
     private Seller seller;
     private ArrayList<Item> items;
-
+    
     public SellerTest() {
+        items = new ArrayList<>();
+        items.add(new Item("Stuff 1", 100));
+        
         try {
-            setSellers();
+            this.seller = new Seller("Jack", items);
         } catch (EmptyItemListException ex) {
-            fail("WTF ?");
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
         AuctionHouse.main(null);
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
         try {
-            setSellers();
+            bidder = new Bidder(1000, 0);
+            this.seller = new Seller("Jack", items);
+            seller.subscribe(bidder);           
         } catch (EmptyItemListException ex) {
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
+    
     @After
     public void tearDown() {
+        seller.unsubscribe(bidder);      
     }
 
     /**
@@ -59,10 +63,10 @@ public class SellerTest {
         try {
             System.out.println("bid");
             Seller instance = seller;
-            instance.bid(new Offer(bidder, seller.getCurrentPrice() + seller.getCurrentItem().getMinBid()));
-            Method m = seller.getClass().getDeclaredMethod("getBestOffer", null);
+            instance.bid(new Offer(bidder, instance.getCurrentPrice() + instance.getCurrentItem().getMinBid()));
+            Method m = instance.getClass().getDeclaredMethod("getBestOffer", null);
             m.setAccessible(true);
-            m.invoke(seller, null);
+            m.invoke(instance, null);
             if (seller.getCurrentBuyer() != bidder.getID()) {                   //Correct bid, should be accepted
                 fail("Bidder is not the current buyer");
             }
@@ -87,7 +91,7 @@ public class SellerTest {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException |
                 IllegalArgumentException | InvocationTargetException | NoSuchFieldException ex) {
             fail("Exception found");
-            System.out.println(ex.getStackTrace());
+            
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -188,13 +192,5 @@ public class SellerTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    //Non direct test functions
-    private void setSellers() throws EmptyItemListException {
-        items = new ArrayList<>();
-        items.add(new Item("Stuff 1", 100));
-        this.seller = new Seller("Jack", items);
-        
-    }
-
+    
 }
