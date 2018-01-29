@@ -15,6 +15,7 @@ public class Window extends JFrame {
 	private static Window instance = null;	//Contient l'unique instance de la classe Window
 	
 	private SellItemPan sellItemPan;
+	private AuctionPan auctionPan;
 	
 	private Window() {
 		super(TITLE);
@@ -23,6 +24,7 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 		sellItemPan = new SellItemPan();
+		auctionPan = new AuctionPan();
 		setVisible(true);
 	}
 	
@@ -32,10 +34,10 @@ public class Window extends JFrame {
 			case SELL_PANEL:
 				getContentPane().add(sellItemPan);
 				break;
-			/*case AUTH_PANEL:
-				getContentPane().add(authPan);
+			case AUCT_PANEL:
+				getContentPane().add(auctionPan);
 				break;
-			case MAIN_PANEL:
+			/*case MAIN_PANEL:
 				getContentPane().add(mainPan);
 				break;*/
 		}
