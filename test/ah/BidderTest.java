@@ -11,65 +11,76 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class BidderTest {
+public class BidderTest
+{
 
-    private Bidder bidder;
-    private Seller seller;
-    private ArrayList<Item> items;
+	private Bidder bidder;
+	private Seller seller;
+	private ArrayList<Item> items;
 
-    public BidderTest() {
-    }
+	public BidderTest()
+	{
+	}
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+	@BeforeClass
+	public static void setUpClass()
+	{
+	}
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
+	@AfterClass
+	public static void tearDownClass()
+	{
+	}
 
-    @Before
-    public void setUp() {
-        items = new ArrayList<>();
-        items.add(new Item("Stuff 1", 100));
-        try {
-            bidder = new Bidder(1000, 0);
-            this.seller = new Seller(items);
-            seller.subscribe(bidder);
-        } catch (EmptyItemListException ex) {
-            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	@Before
+	public void setUp()
+	{
+		items = new ArrayList<>();
+		items.add(new Item("Stuff 1", 100));
+		try
+		{
+			bidder = new Bidder(1000, 0);
+			this.seller = new Seller(items);
+			seller.subscribe(bidder);
+		}
+		catch(EmptyItemListException ex)
+		{
+			Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    @After
-    public void tearDown() {
-    }
+	@After
+	public void tearDown()
+	{
+	}
 
-    /**
-     * Test of bidMonney method, of class Bidder.
-     */
-    @Test
-    public void testBidMonney() {
-        System.out.println("bidMonney");
-        Bidder instance = bidder;
-        assertTrue("The bidder should have enough money.",
-                instance.bidMonney(instance.getWallet()));
-        assertFalse("The bidder sould not enough money.",
-                instance.bidMonney(instance.getWallet() + 1));
-    }
+	/**
+	 * Test of bidMonney method, of class Bidder.
+	 */
+	@Test
+	public void testBidMonney()
+	{
+		System.out.println("bidMonney");
+		Bidder instance = bidder;
+		assertTrue("The bidder should have enough money.",
+				instance.bidMonney(instance.getWallet()));
+		assertFalse("The bidder sould not enough money.",
+				instance.bidMonney(instance.getWallet() + 1));
+	}
 
-    /**
-     * Test of bidRefund method, of class Bidder.
-     */
-    @Test
-    public void testBidRefund() {
-        System.out.println("bidRefund");
-        int bid = 1234;
-        int before = bidder.getWallet();
-        bidder.bidRefund(bid);
-        assertTrue("The bidder should have been credited of " + bid,
-                bidder.getWallet() - bid == before);
-    }
+	/**
+	 * Test of bidRefund method, of class Bidder.
+	 */
+	@Test
+	public void testBidRefund()
+	{
+		System.out.println("bidRefund");
+		int bid = 1234;
+		int before = bidder.getWallet();
+		bidder.bidRefund(bid);
+		assertTrue("The bidder should have been credited of " + bid,
+				bidder.getWallet() - bid == before);
+	}
 
 //    /**
 //     * Test of refresh method, of class Bidder.
@@ -91,27 +102,28 @@ public class BidderTest {
 //        }
 //
 //    }
+	/**
+	 * Test of getID method, of class Bidder.
+	 */
+	@Test
+	public void testGetID()
+	{
+		System.out.println("getID");
+		int expResult = 0;                                                      //Defined at 0 in constructor
+		int result = bidder.getID();
+		assertEquals(expResult, result);
+	}
 
-    /**
-     * Test of getID method, of class Bidder.
-     */
-    @Test
-    public void testGetID() {
-        System.out.println("getID");
-        int expResult = 0;                                                      //Defined at 0 in constructor
-        int result = bidder.getID();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getWallet method, of class Bidder.
-     */
-    @Test
-    public void testGetWallet() {
-        System.out.println("getWallet");
-        int expResult = 1000;                                                   //Defined at 1000 in constructor
-        int result = bidder.getWallet();
-        assertEquals(expResult, result);
-    }
+	/**
+	 * Test of getWallet method, of class Bidder.
+	 */
+	@Test
+	public void testGetWallet()
+	{
+		System.out.println("getWallet");
+		int expResult = 1000;                                                   //Defined at 1000 in constructor
+		int result = bidder.getWallet();
+		assertEquals(expResult, result);
+	}
 
 }

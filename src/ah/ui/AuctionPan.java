@@ -5,16 +5,22 @@
  */
 package ah.ui;
 
+import ah.Item;
+import ah.Seller;
+import java.util.ArrayList;
+
 /**
  *
  * @author florian
  */
-public class AuctionPan extends javax.swing.JPanel {
+public class AuctionPan extends javax.swing.JPanel
+{
 
 	/**
 	 * Creates new form AuctionPan
 	 */
-	public AuctionPan() {
+	public AuctionPan()
+	{
 		initComponents();
 	}
 
@@ -25,22 +31,18 @@ public class AuctionPan extends javax.swing.JPanel {
 	 */
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        itemJList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Auction house");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(itemJList);
 
         jButton1.setText("Show details");
 
@@ -79,9 +81,19 @@ public class AuctionPan extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> itemJList;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+	public void refresh(Seller seller)
+	{
+		String[] infos = new String[seller.getItems().size()];
+		for(int i = 0; i < seller.getItems().size(); i++)
+			infos[i] = seller.getItems().get(i).toString();
+		itemJList.setListData(infos);
+		validate();
+		repaint();
+	}
 }
