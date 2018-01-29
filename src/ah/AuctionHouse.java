@@ -1,5 +1,6 @@
 package ah;
 
+import ah.ui.Window;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
@@ -11,10 +12,13 @@ public class AuctionHouse {
     private static int count = 0;
     private static int nomberSeller = 0;
     public static Random rand = new Random();
+	public static Window win;
 
     static public void main(String[] args) {
-        InitiateRoom();
-        sellers.get(0).start();
+		win = Window.getInstance();
+		win.showPanel(Window.SELL_PANEL);
+        //InitiateRoom();
+        //sellers.get(0).start();
     }
 
     public static ArrayList<Seller> getListSellers() {
