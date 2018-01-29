@@ -34,20 +34,21 @@ public class Bidder implements Observer {
             int minBid = seller.getCurrentItem().getMinBid();
             int IDBuyer = seller.getCurrentBuyer();
 			int aleatoire = rand.nextInt(1000);
-			System.out.println("commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+			//System.out.println(aleatoire);
 			if( ID != IDBuyer) {
 				if (commonPrice > currentPrice) {
 	                if ( aleatoire > 500) {
+						System.out.println("action 1, currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire);
 	                    seller.bid(new Offer(this, currentPrice + minBid*4));
 	                }
 	            } else if (commonPrice * 1.3 > currentPrice) {
 	                if ( aleatoire > 800) {
-						System.out.println("action 2, commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+						System.out.println("action 2, currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire);
 	                    seller.bid(new Offer(this, currentPrice + minBid*2));
 	                }
 	            } else if (commonPrice * 3 > currentPrice) {
 	                if ( aleatoire > 950) {
-						System.out.println("action 3, commonPrice :" +commonPrice+", currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire+"\n");
+						System.out.println("action 3, currentPrice : "+ currentPrice+", minBid :"+ minBid+", IDBuyer :"+IDBuyer+", ID :"+ID+", aleatoire :"+aleatoire);
 	                    seller.bid(new Offer(this, currentPrice + minBid));
 	                }
 	            }

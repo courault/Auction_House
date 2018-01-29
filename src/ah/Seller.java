@@ -27,7 +27,7 @@ public class Seller implements Observable {
     public void start(){
         notifyObserver();
     }
-    
+
     private void nextItem() {
         items.remove(0);
         if (items.isEmpty()) {
@@ -52,7 +52,7 @@ public class Seller implements Observable {
                     bidder = offer.getBidder();
                     price = offer.getOffer();
                 }
-            }
+            } 
             if (price >= biggestValue + items.get(0).getMinBid()
                     && bidder.bidMonney(price)) {
                 if (HighestBidder != null) {
@@ -63,7 +63,7 @@ public class Seller implements Observable {
                 offers.clear();
                 notifyObserver();
             }
-        } 
+        }
         else if (calls < 3) {
             ++calls;
             notifyObserver();
