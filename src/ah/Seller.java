@@ -6,15 +6,13 @@ public class Seller implements Observable {
 
     private ArrayList<Observer> bidders;
     private ArrayList<Item> items;
-    private final String name;
     private int biggestValue;
     private Bidder HighestBidder;
     private ArrayList<Offer> offers;
     private short calls = 0;
     private boolean newbid = true;
 
-    public Seller(String name, ArrayList<Item> listItem) throws EmptyItemListException {
-        this.name = name;
+    public Seller(ArrayList<Item> listItem) throws EmptyItemListException {
         bidders = new ArrayList<>();
         offers = new ArrayList<>();
         items = listItem;
@@ -70,7 +68,7 @@ public class Seller implements Observable {
     @Override
     public void subscribe(Observer bidder) {
         bidders.add(bidder);
-        System.out.println("Room : " + this.name + "\nBidder :" + bidder.toString() + "\n");
+        System.out.println("Bidder :" + bidder.toString() + "\n");
         calls = 0;
     }
 
