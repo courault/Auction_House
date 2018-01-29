@@ -14,45 +14,39 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class SellerTest {
-    
+
     private Bidder bidder;
     private Seller seller;
     private ArrayList<Item> items;
-    
+
     public SellerTest() {
-        items = new ArrayList<>();
-        items.add(new Item("Stuff 1", 100));
-        
-        try {
-            this.seller = new Seller("Jack", items);
-        } catch (EmptyItemListException ex) {
-            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        AuctionHouse.main(null);
+        
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        items = new ArrayList<>();
+        items.add(new Item("Stuff 1", 100));
         try {
             bidder = new Bidder(1000, 0);
             this.seller = new Seller("Jack", items);
-            seller.subscribe(bidder);           
+            seller.subscribe(bidder);
         } catch (EmptyItemListException ex) {
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @After
     public void tearDown() {
-        seller.unsubscribe(bidder);      
+        seller.unsubscribe(bidder);
     }
 
     /**
@@ -91,7 +85,7 @@ public class SellerTest {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException |
                 IllegalArgumentException | InvocationTargetException | NoSuchFieldException ex) {
             fail("Exception found");
-            
+
             Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -103,13 +97,16 @@ public class SellerTest {
     public void testSubscribe() {
         try {
             seller.unsubscribe(bidder);
+            Field f = seller.getClass().getDeclaredField("bidders");
+            f.setAccessible(true);
+            ArrayList<Bidder> g = (ArrayList) f.get(seller);
+            if (!g.isEmpty()) {
+                fail("Subscribe list not empty");
+            }
             System.out.println("subscribe");
             Observer bidder = this.bidder;
             Seller instance = seller;
             instance.subscribe(bidder);
-            Field f = seller.getClass().getDeclaredField("bidders");
-            f.setAccessible(true);
-            ArrayList<Bidder> g = (ArrayList) f.get(seller);
             if (!g.contains(bidder)) {
                 fail("Bidder did not subscribe.");
             }
@@ -119,36 +116,43 @@ public class SellerTest {
         }
     }
 
-//    /**
-//     * Test of notifyObserver method, of class Seller.
-//     */
-//    @Test
-//    public void testNotifyObserver() {
-//        System.out.println("notifyObserver");
-//        try {
-//            Field f = seller.getClass().getDeclaredField("items");
-//            f.setAccessible(true);
-//            ArrayList<Item> g = (ArrayList) f.get(seller);
-//            g.clear();
-//            Seller instance = seller;
-//            instance.notifyObserver();
-//            // TODO review the generated test code and remove the default call to fail.
-//            fail("The test case is a prototype.");
-//        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-//            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    /**
+     * Test of notifyObserver method, of class Seller.
+     */
+    @Test
+    public void testNotifyObserver() {
+        System.out.println("notifyObserver");
+            Seller instance = seller;
+            instance.notifyObserver();
+            if(!items.isEmpty())
+                fail("All items are not sold, should not have ended");
+            // TODO review the generated test code and remove the default call to fail.
+            
+    }
+
     /**
      * Test of unsubscribe method, of class Seller.
      */
     @Test
     public void testUnsubscribe() {
-        System.out.println("unsubscribe");
-        Observer o = null;
-        Seller instance = null;
-        instance.unsubscribe(o);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            System.out.println("unsubscribe");
+            Field f = seller.getClass().getDeclaredField("bidders");
+            f.setAccessible(true);
+            ArrayList<Item> g = (ArrayList) f.get(seller);
+            if(g.isEmpty())
+                fail("No subscriber registered");
+            Observer o = bidder;
+            Seller instance = seller;
+            instance.unsubscribe(o);
+            // TODO review the generated test code and remove the default call to fail.
+            if(!g.isEmpty()){
+                System.out.println(g.size() + '\n' + g.get(0).getName());
+                fail("The only bidder did not unsubscribe");
+            }
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+            Logger.getLogger(SellerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -192,5 +196,5 @@ public class SellerTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
