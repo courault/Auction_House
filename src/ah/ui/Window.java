@@ -15,10 +15,12 @@ public class Window extends JFrame implements Observer
 	public static final int AUCT_PANEL = 1;
 	public static final int DETA_PANEL = 2;
 
-	private static Window instance = null;	//Contient l'unique instance de la classe Window
+	private static Window instance = null;	//Contains the unique instance of class Window
 
-	private SellItemPan sellItemPan;
-	private AuctionPan auctionPan;
+	//Differents intances of the application views
+	private final SellItemPan sellItemPan;
+	private final AuctionPan auctionPan;
+	private final DetailsPan detailsPan;
 
 	private Window()
 	{
@@ -29,9 +31,11 @@ public class Window extends JFrame implements Observer
 		setResizable(false);
 		sellItemPan = new SellItemPan();
 		auctionPan = new AuctionPan();
+		detailsPan = new DetailsPan();
 		setVisible(true);
 	}
 
+	//To use to change the application view
 	public void showPanel(int panel)
 	{
 		getContentPane().removeAll();
@@ -43,9 +47,10 @@ public class Window extends JFrame implements Observer
 			case AUCT_PANEL:
 				getContentPane().add(auctionPan);
 				break;
-			/*case MAIN_PANEL:
-				getContentPane().add(mainPan);
-				break;*/
+			case DETA_PANEL:
+				getContentPane().add(detailsPan);
+				detailsPan.setItemIndex(auctionPan.getItemIndex());
+				break;
 		}
 		validate();
 		repaint();
@@ -67,5 +72,6 @@ public class Window extends JFrame implements Observer
 	public void refresh(Seller seller)
 	{
 		auctionPan.refresh(seller);
+		detailsPan.refresh(seller);
 	}
 }
