@@ -65,7 +65,7 @@ public class SellerTest {
                     seller.getCurrentBuyer(), bidder.getID());                   //Correct bid, should be accepted
             Field f = seller.getClass().getDeclaredField("offers");
             f.setAccessible(true);
-            ArrayList<Bidder> offers = (ArrayList) f.get(seller);
+            ArrayList<Offer> offers = (ArrayList) f.get(seller);
             assertTrue("Offer array should be empty",
                     offers.isEmpty());                                          //check if offers array not cleaned as it should be
             instance.bid(new Offer(bidder, seller.getCurrentPrice()));

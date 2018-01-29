@@ -64,11 +64,6 @@ public class Bidder implements Observer {
         whoBid(seller);
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(ID);
-    }
-
     //Getters
     public int getID() {
         return ID;

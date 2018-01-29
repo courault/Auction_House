@@ -7,8 +7,13 @@ import java.util.List;
 
 public class AuctionHouse {
 
+    static {
+        sellers = new ArrayList<>();
+        sellerName = new ArrayList<String>();
+    }
+    
     private static ArrayList<Seller> sellers;
-    private static List<String> sellerName = new ArrayList<String>();
+    private static List<String> sellerName;
     private static int count = 0;
     private static int nomberSeller = 0;
     public static Random rand = new Random();
@@ -34,7 +39,6 @@ public class AuctionHouse {
     }
 
     public static void InitiateRoom() {
-        sellers = new ArrayList<Seller>();
         sellerName.add("Jack");
         sellerName.add("Jack");
         sellerName.add("Jack");
@@ -56,6 +60,14 @@ public class AuctionHouse {
         Bidder trump = new Bidder(InitiateWallet(), InitiateID());
         Bidder bertrand = new Bidder(InitiateWallet(), InitiateID());
         Bidder carole = new Bidder(InitiateWallet(), InitiateID());
+        
+        sellers.get(0).subscribe(carole);
+        sellers.get(0).subscribe(bertrand);
+        sellers.get(0).subscribe(nicolas);
+        sellers.get(0).subscribe(kevin);
+        sellers.get(0).subscribe(trump);
+        sellers.get(0).subscribe(jean);
+        
     }
 
 }
