@@ -38,7 +38,6 @@ public class Seller implements Observable {
             calls = 4;
         }
         newbid = true;
-        items.get(item).addOffer(offers);
         ++item;
         offers.clear();
     }
@@ -70,6 +69,8 @@ public class Seller implements Observable {
             }
 
         }
+        if(item<items.size())
+            items.get(item).addOffer(offers);
         offers.clear();
     }
 
