@@ -1,7 +1,6 @@
 package ah.ui;
 
-import ah.Observer;
-import ah.Seller;
+import ah.*;
 import javax.swing.JFrame;
 
 public class Window extends JFrame implements Observer
@@ -20,7 +19,7 @@ public class Window extends JFrame implements Observer
 	//Differents intances of the application views
 	private final SellItemPan sellItemPan;
 	private final AuctionPan auctionPan;
-	private final DetailsPan detailsPan;
+	public final DetailsPan detailsPan;
 	private int panel = 0;
 
 	private Window()
@@ -51,7 +50,7 @@ public class Window extends JFrame implements Observer
 				break;
 			case DETA_PANEL:
 				getContentPane().add(detailsPan);
-				detailsPan.setItemIndex(auctionPan.getItemIndex());
+				detailsPan.refresh(AuctionHouse.getInstance().getSeller());
 				break;
 		}
 		validate();
