@@ -116,6 +116,13 @@ public class SellItemPan extends javax.swing.JPanel
                 priceFieldActionPerformed(evt);
             }
         });
+        priceField.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                priceFieldKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -180,15 +187,7 @@ public class SellItemPan extends javax.swing.JPanel
     }//GEN-LAST:event_nameFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-		if("".equals(nameField.getText()) || priceField.getValue() == null)
-			return;
-		itemNameList.add(nameField.getText());
-		itemList.add(new Item(nameField.getText(), (int) priceField.getValue()));
-		nameField.setText("");
-		priceField.setValue(1);
-		itemJList.setListData(itemNameList.toArray(new String[itemNameList.size()]));
-		itemJList.setEnabled(true);
-		startButton.setEnabled(true);
+		addItem();
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void priceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceFieldActionPerformed
@@ -196,17 +195,14 @@ public class SellItemPan extends javax.swing.JPanel
     }//GEN-LAST:event_priceFieldActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-		Window.getInstance().showPanel(Window.AUCT_PANEL);
-		new Thread()
-		{
-			@Override
-			public void run()
-			{
-				AuctionHouse.getInstance().initiateRoom(itemList);
-				AuctionHouse.getInstance().getSeller().start();
-			}
-		}.start();
+		startAuction();
     }//GEN-LAST:event_startButtonActionPerformed
+
+    private void priceFieldKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_priceFieldKeyPressed
+    {//GEN-HEADEREND:event_priceFieldKeyPressed
+		if(evt.getKeyCode() == 10)
+			addItem();
+    }//GEN-LAST:event_priceFieldKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -221,4 +217,30 @@ public class SellItemPan extends javax.swing.JPanel
     private javax.swing.JFormattedTextField priceField;
     private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
+	private void startAuction()
+	{
+		Window.getInstance().showPanel(Window.AUCT_PANEL);
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				AuctionHouse.getInstance().initiateRoom(itemList);
+				AuctionHouse.getInstance().getSeller().start();
+			}
+		}.start();
+	}
+
+	private void addItem()
+	{
+		if("".equals(nameField.getText()) || priceField.getValue() == null)
+			return;
+		itemNameList.add(nameField.getText());
+		itemList.add(new Item(nameField.getText(), (int) priceField.getValue()));
+		nameField.setText("");
+		priceField.setValue(1);
+		itemJList.setListData(itemNameList.toArray(new String[itemNameList.size()]));
+		itemJList.setEnabled(true);
+		startButton.setEnabled(true);
+	}
 }

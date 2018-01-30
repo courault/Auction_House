@@ -88,6 +88,6 @@ public class Item
 			head = "[Sold] ";
 		else if(!sold && startPrice != price)
 			head = "[In progress] ";
-		return head + name + " | Current price : " + price + "€ | Market price : " + commonPrice + " | Minimum bid : " + minBid + " | Sold : " + sold + ch;
+		return head + name + " | Current price : " + price + "€ | Market price : " + commonPrice + " | Minimum bid : " + minBid + ch;
 	}
 }

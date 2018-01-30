@@ -15,6 +15,7 @@ public class AuctionPan extends javax.swing.JPanel
 {
 
 	private int item = -1;
+
 	/**
 	 * Creates new form AuctionPan
 	 */
@@ -89,7 +90,10 @@ public class AuctionPan extends javax.swing.JPanel
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_detailsButtonActionPerformed
     {//GEN-HEADEREND:event_detailsButtonActionPerformed
 		if(itemJList.getSelectedIndex() != -1)
+		{
+			item = itemJList.getSelectedIndex();
 			Window.getInstance().showPanel(Window.DETA_PANEL);
+		}
     }//GEN-LAST:event_detailsButtonActionPerformed
 
 

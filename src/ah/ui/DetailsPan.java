@@ -100,7 +100,6 @@ public class DetailsPan extends javax.swing.JPanel
 
 	void refresh(Seller seller)
 	{
-		System.out.println("item " + itemIndex);
 		ArrayList<Offer> offers = seller.getItems().get(itemIndex).getOffers();
 		String[] infos = new String[offers.size()];
 		for(int i = 0; i < offers.size(); i++)

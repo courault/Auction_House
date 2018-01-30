@@ -51,7 +51,6 @@ public class Window extends JFrame implements Observer
 				break;
 			case DETA_PANEL:
 				getContentPane().add(detailsPan);
-				System.out.println("lol ? " + auctionPan.getItemIndex());
 				detailsPan.setItemIndex(auctionPan.getItemIndex());
 				break;
 		}
