@@ -46,13 +46,33 @@ public class Seller implements Observable {
         offers.add(offer);
     }
 
+    private int getCorrectOffer(ArrayList<Offer> offers){
+        
+        int i = 0;
+        while(i<offers.size()){
+            if(checkDispo(offers.get(i)))
+                break;
+            ++i;
+        }
+        return i;
+    }
+    
+    private boolean checkDispo(Offer offer){
+        int price = offer.getOffer();
+        Bidder bidder = offer.getBidder();
+        return price >= items.get(item).getPrice() + items.get(item).getMinBid()
+                    && bidder.bidMonney(price);
+    }
+    
     private void getBestOffer() {
         if (!offers.isEmpty()) {
+            
+            
             offers.sort((f1, f2) -> Integer.compare(f2.getOffer(), f1.getOffer()));
+            int i = getCorrectOffer(offers);
+            if(i<offers.size()) {
             int price = offers.get(0).getOffer();
             Bidder bidder = offers.get(0).getBidder();
-            if (price >= items.get(item).getPrice() + items.get(item).getMinBid()
-                    && bidder.bidMonney(price)) {
                 if (highestBidder != null) {
                     highestBidder.bidRefund(items.get(item).getPrice());
                 }
