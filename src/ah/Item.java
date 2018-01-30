@@ -1,9 +1,10 @@
 package ah;
 
 public class Item
-{
-
+{	
+	
 	private final String name;
+	private final int startPrice;
 	private int price;
 	private final int minBid;
 	private final int commonPrice;
@@ -13,6 +14,7 @@ public class Item
 	public Item(String name, int price)
 	{
 		this.name = name;
+		startPrice = price;
 		this.price = price;
 		commonPrice = price * 2;
 		minBid = (int) (price / 10) + (int) (Math.random() * (((price / 20) - (price / 10)) + 1));
@@ -62,8 +64,15 @@ public class Item
 	public String toString()
 	{
 		String ch = "";
-		if(sold)
+		if(buyer != -1)
 			ch = " | Acquired by : " + buyer;
-		return "[In progress] " + name + " | Current price : " + price + "€ | Market price : " + commonPrice + " | Minimum bid : " + minBid + " | Sold : " + sold + ch;
+		String head = "[Waiting] ";
+		if(sold && buyer == -1)
+			head = "[Unsold] ";
+		else if(sold)
+			head = "[Sold] ";
+		else if(!sold && startPrice != price)
+			head = "[In progress] ";
+		return head + name + " | Current price : " + price + "€ | Market price : " + commonPrice + " | Minimum bid : " + minBid + " | Sold : " + sold + ch;
 	}
 }
