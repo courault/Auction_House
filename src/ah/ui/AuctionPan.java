@@ -90,6 +90,7 @@ public class AuctionPan extends javax.swing.JPanel
 		if(itemJList.getSelectedIndex() != -1)
 		{
 			item = itemJList.getSelectedIndex();
+			Window.getInstance().detailsPan.setItemIndex(item);
 			Window.getInstance().showPanel(Window.DETA_PANEL);
 		}
     }//GEN-LAST:event_detailsButtonActionPerformed
@@ -105,6 +106,7 @@ public class AuctionPan extends javax.swing.JPanel
 	public void refresh(Seller seller)
 	{
 		item = itemJList.getSelectedIndex();
+		Window.getInstance().detailsPan.setItemIndex(item);
 		String[] infos = new String[seller.getItems().size()];
 		for(int i = 0; i < seller.getItems().size(); i++)
 			infos[i] = seller.getItems().get(i).toString();
