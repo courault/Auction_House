@@ -56,6 +56,7 @@ public class Seller implements Observable {
                 if (highestBidder != null) {
                     highestBidder.bidRefund(items.get(item).getPrice());
                 }
+                offers.get(0).setWin(true);
                 items.get(item).setPrice(price);
                 highestBidder = bidder;
                 System.out.println("The best offer comes from : "

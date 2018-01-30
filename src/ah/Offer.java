@@ -1,27 +1,38 @@
 package ah;
 
-public class Offer
-{
-	private final Bidder bidder;
-	private final int offer;
+public class Offer {
 
-	public Offer(Bidder bidder, int offer)
-	{
-		this.bidder = bidder;
-		this.offer = offer;
-	}
+    private final Bidder bidder;
+    private final int offer;
+    private boolean winBid;
 
-	public Bidder getBidder()
-	{
-		return bidder;
-	}
+    public Offer(Bidder bidder, int offer) {
+        this.bidder = bidder;
+        this.offer = offer;
+        this.winBid = false;
+    }
 
-	public int getOffer()
-	{
-		return offer;
-	}
+    //Getters
+    
+    public Bidder getBidder() {
+        return bidder;
+    }
 
-	@Override
+    public int getOffer() {
+        return offer;
+    }
+
+    public boolean win(){
+        return winBid;
+    }
+    
+    //Setters
+    
+    public void setWin(boolean win){
+        this.winBid=win;
+    }
+    
+    @Override
 	public String toString()
 	{
 		return "Overbid from bidder n° " + bidder.getID() + " : " + offer;
