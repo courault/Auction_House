@@ -20,9 +20,10 @@ public class Offer
 	{
 		return offer;
 	}
-	
+
 	@Override
-	public String toString(){
-		return ""+offer;
+	public String toString()
+	{
+		return "Overbid from bidder n° " + bidder.getID() + " : " + offer;
 	}
 }

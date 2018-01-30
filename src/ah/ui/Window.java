@@ -73,16 +73,17 @@ public class Window extends JFrame implements Observer
 	@Override
 	public void refresh(Seller seller)
 	{
-		switch(panel)
+		auctionPan.refresh(seller);
+		detailsPan.refresh(seller);
+		/*switch(panel)
 		{
 			case SELL_PANEL:
 				break;
 			case AUCT_PANEL:
-				auctionPan.refresh(seller);
 				break;
 			case DETA_PANEL:
-				detailsPan.refresh(seller);
+				
 				break;
-		}
+		}*/
 	}
 }

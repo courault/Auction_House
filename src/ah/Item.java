@@ -75,7 +75,6 @@ public class Item
 
 	//Others functions 
 	@Override
-
 	public String toString()
 	{
 		String ch = "";
