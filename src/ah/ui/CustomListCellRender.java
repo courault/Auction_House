@@ -22,11 +22,11 @@ public class CustomListCellRender implements ListCellRenderer {
         else if(text.contains("[Sold]"))
             renderer.setForeground(new Color(0,150,0));
         else if(text.contains("[Unsold]"))
-            renderer.setForeground(Color.RED);
+            renderer.setForeground(Color.RED);       
         else
             renderer.setForeground(new Color(255,127,80));
         
-        if(cellHasFocus)
+        if(isSelected)
             renderer.setBackground(new Color(176,224,230));
         else
             renderer.setBackground(Color.WHITE);
