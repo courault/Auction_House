@@ -14,6 +14,7 @@ import ah.Seller;
 public class AuctionPan extends javax.swing.JPanel
 {
 
+	private int item = -1;
 	/**
 	 * Creates new form AuctionPan
 	 */
@@ -40,6 +41,7 @@ public class AuctionPan extends javax.swing.JPanel
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Auction house");
 
+        itemJList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(itemJList);
 
         detailsButton.setText("Show details");
@@ -63,12 +65,12 @@ public class AuctionPan extends javax.swing.JPanel
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(detailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(300, 300, 300)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(200, 200, 200)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 188, Short.MAX_VALUE)))
+                                .addGap(325, 325, 325)
+                                .addComponent(detailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 288, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,17 +102,18 @@ public class AuctionPan extends javax.swing.JPanel
 
 	public void refresh(Seller seller)
 	{
+		item = itemJList.getSelectedIndex();
 		String[] infos = new String[seller.getItems().size()];
 		for(int i = 0; i < seller.getItems().size(); i++)
 			infos[i] = seller.getItems().get(i).toString();
-		System.out.println("fds " + infos.length);
 		itemJList.setListData(infos);
+		itemJList.setSelectedIndex(item);
 		validate();
 		repaint();
 	}
 
 	public int getItemIndex()
 	{
-		return itemJList.getSelectedIndex();
+		return item;
 	}
 }

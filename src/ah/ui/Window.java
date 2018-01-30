@@ -8,7 +8,7 @@ public class Window extends JFrame implements Observer
 {
 
 	private static final String TITLE = "Auction House";
-	private static final int W = 600;
+	private static final int W = 800;
 	private static final int H = 500;
 
 	public static final int SELL_PANEL = 0;

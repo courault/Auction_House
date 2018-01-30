@@ -7,7 +7,8 @@ public class Item
 	private int price;
 	private final int minBid;
 	private final int commonPrice;
-        private boolean sold;
+	private boolean sold;
+	private int buyer = -1;
 
 	public Item(String name, int price)
 	{
@@ -15,7 +16,7 @@ public class Item
 		this.price = price;
 		commonPrice = price * 2;
 		minBid = (int) (price / 10) + (int) (Math.random() * (((price / 20) - (price / 10)) + 1));
-                sold = false;
+		sold = false;
 
 	}
 
@@ -40,22 +41,29 @@ public class Item
 		return commonPrice;
 	}
 
-        //Setters
-        
+	//Setters
 	public void setPrice(int price)
 	{
 		this.price = price;
 	}
 
-        public void isSold(boolean value){
-            this.sold=value;
-        }
-        
-        //Others functions 
-        
+	public void setBuyer(int bidderID)
+	{
+		buyer = bidderID;
+	}
+
+	public void isSold(boolean value)
+	{
+		this.sold = value;
+	}
+
+	//Others functions 
 	@Override
 	public String toString()
 	{
-		return name + " : " + price + " : " + commonPrice + " : " + minBid;
+		String ch = "";
+		if(sold)
+			ch = " | Acquired by : " + buyer;
+		return "[In progress] " + name + " | Current price : " + price + "€ | Market price : " + commonPrice + " | Minimum bid : " + minBid + " | Sold : " + sold + ch;
 	}
 }
