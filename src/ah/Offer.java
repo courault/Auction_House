@@ -1,40 +1,47 @@
 package ah;
 
-public class Offer {
+public class Offer
+{
 
-    private final Bidder bidder;
-    private final int offer;
-    private boolean winBid;
+	private final Bidder bidder;
+	private final int offer;
+	private boolean winBid;
 
-    public Offer(Bidder bidder, int offer) {
-        this.bidder = bidder;
-        this.offer = offer;
-        this.winBid = false;
-    }
+	public Offer(Bidder bidder, int offer)
+	{
+		this.bidder = bidder;
+		this.offer = offer;
+		this.winBid = false;
+	}
 
-    //Getters
-    
-    public Bidder getBidder() {
-        return bidder;
-    }
+	//Getters
+	public Bidder getBidder()
+	{
+		return bidder;
+	}
 
-    public int getOffer() {
-        return offer;
-    }
+	public int getOffer()
+	{
+		return offer;
+	}
 
-    public boolean win(){
-        return winBid;
-    }
-    
-    //Setters
-    
-    public void setWin(boolean win){
-        this.winBid=win;
-    }
-    
-    @Override
+	public boolean win()
+	{
+		return winBid;
+	}
+
+	//Setters
+	public void setWin(boolean win)
+	{
+		this.winBid = win;
+	}
+
+	@Override
 	public String toString()
 	{
-		return "Overbid from bidder n° " + bidder.getID() + " : " + offer;
+		String head = "[Rejected]";
+		if(winBid)
+			head = "[Accepted]";
+		return head + " Overbid from bidder n° " + bidder.getID() + " : " + offer + "€";
 	}
 }
