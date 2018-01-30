@@ -41,7 +41,7 @@ public class AuctionHouse
 	
 	public int initiateWallet()
 	{
-		return rand.nextInt(1000000000);
+		return rand.nextInt(1000);
 	}
 	
 	public int initiateID()

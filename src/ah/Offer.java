@@ -20,4 +20,9 @@ public class Offer
 	{
 		return offer;
 	}
+	
+	@Override
+	public String toString(){
+		return ""+offer;
+	}
 }

@@ -1,8 +1,10 @@
 package ah;
 
+import java.util.ArrayList;
+
 public class Item
-{	
-	
+{
+
 	private final String name;
 	private final int startPrice;
 	private int price;
@@ -10,6 +12,7 @@ public class Item
 	private final int commonPrice;
 	private boolean sold;
 	private int buyer = -1;
+	private ArrayList<Offer> offers;
 
 	public Item(String name, int price)
 	{
@@ -19,10 +22,11 @@ public class Item
 		commonPrice = price * 2;
 		minBid = (int) (price / 10) + (int) (Math.random() * (((price / 20) - (price / 10)) + 1));
 		sold = false;
-
+		offers = new ArrayList<>();
 	}
-
+	
 	//Getters
+
 	public int getPrice()
 	{
 		return price;
@@ -43,6 +47,11 @@ public class Item
 		return commonPrice;
 	}
 
+	public ArrayList<Offer> getOffers()
+	{
+		return offers;
+	}
+
 	//Setters
 	public void setPrice(int price)
 	{
@@ -58,9 +67,15 @@ public class Item
 	{
 		this.sold = value;
 	}
+	
+	public void addOffer(ArrayList<Offer> offers)
+	{
+		this.offers.addAll(offers);
+	}
 
 	//Others functions 
 	@Override
+
 	public String toString()
 	{
 		String ch = "";

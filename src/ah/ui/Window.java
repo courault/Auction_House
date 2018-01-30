@@ -21,6 +21,7 @@ public class Window extends JFrame implements Observer
 	private final SellItemPan sellItemPan;
 	private final AuctionPan auctionPan;
 	private final DetailsPan detailsPan;
+	private int panel = 0;
 
 	private Window()
 	{
@@ -38,6 +39,7 @@ public class Window extends JFrame implements Observer
 	//To use to change the application view
 	public void showPanel(int panel)
 	{
+		this.panel = panel;
 		getContentPane().removeAll();
 		switch(panel)
 		{
@@ -49,6 +51,7 @@ public class Window extends JFrame implements Observer
 				break;
 			case DETA_PANEL:
 				getContentPane().add(detailsPan);
+				System.out.println("lol ? " + auctionPan.getItemIndex());
 				detailsPan.setItemIndex(auctionPan.getItemIndex());
 				break;
 		}
@@ -71,7 +74,16 @@ public class Window extends JFrame implements Observer
 	@Override
 	public void refresh(Seller seller)
 	{
-		auctionPan.refresh(seller);
-		detailsPan.refresh(seller);
+		switch(panel)
+		{
+			case SELL_PANEL:
+				break;
+			case AUCT_PANEL:
+				auctionPan.refresh(seller);
+				break;
+			case DETA_PANEL:
+				detailsPan.refresh(seller);
+				break;
+		}
 	}
 }
