@@ -38,18 +38,18 @@ public class Bidder implements Observer {
             if (ID != IDBuyer) {
                 if (commonPrice > currentPrice) {
                     if (aleatoire > 500) {
-                        System.out.println("action 1, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 4 + aleatoire/100) + " , minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid * 4 + aleatoire/100));
+                        System.out.println("action 1, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 4 + aleatoire / 100) + " , minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid * 4 + aleatoire / 100));
                     }
                 } else if (commonPrice * 1.3 > currentPrice) {
                     if (aleatoire > 800) {
-                        System.out.println("action 2, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 2 + aleatoire/100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid * 2 + aleatoire/100));
+                        System.out.println("action 2, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid * 2 + aleatoire / 100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid * 2 + aleatoire / 100));
                     }
                 } else if (commonPrice * 3 > currentPrice) {
                     if (aleatoire > 950) {
-                        System.out.println("action 3, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid  + aleatoire/100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
-                        seller.bid(new Offer(this, currentPrice + minBid + aleatoire/100));
+                        System.out.println("action 3, currentPrice : " + currentPrice + " Actual bid :" + (currentPrice + minBid + aleatoire / 100) + ", minBid :" + minBid + ", IDBuyer :" + IDBuyer + ", ID :" + ID + ", aleatoire :" + aleatoire);
+                        seller.bid(new Offer(this, currentPrice + minBid + aleatoire / 100));
                     }
                 }
             }
